@@ -1,85 +1,102 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import time
 
-# إعدادات المنصة
-st.set_page_config(page_title="AdSpy AI Global Pro", page_icon="💎", layout="wide")
+# إعدادات المنصة الاحترافية
+st.set_page_config(page_title="AdSpy AI & Shop Builder", page_icon="🛍️", layout="wide")
 
 if 'lang' not in st.session_state:
-    st.session_state.lang = 'English'
+    st.session_state.lang = 'العربية'
 
 with st.sidebar:
-    st.markdown("## ⚙️ Business Suite")
-    st.session_state.lang = st.selectbox("Language / اللغة", ["English", "العربية", "Français"])
+    st.header("⚙️ Admin Panel")
+    st.session_state.lang = st.selectbox("Language", ["العربية", "English", "Français"])
     st.write("---")
-    st.markdown("### 💎 Account: Business Pro")
-    st.write("Developer: Ilham")
+    st.info("Status: Website Builder Suite")
 
-# الترجمة الكاملة (كل لغة معزولة)
+# محتوى اللغات (إضافة ميزة بناء المواقع المباشر)
 content = {
-    "English": {
-        "title": "AdSpy AI: Global Intelligence",
-        "tabs": ["Deep Analysis", "AI Copywriting", "CRM Reply", "Pricing"],
-        "input_label": "Analyze Ad Content:",
-        "input_place": "Paste your ad text here...",
-        "btn_start": "Start Analysis",
-        "offer": "🚀 Professional AI Suite for E-commerce Experts.",
-        "wa_msg": "Activate Pro Plan Now ✅"
-    },
     "العربية": {
-        "title": "AdSpy AI: منصة الذكاء العالمي",
-        "tabs": ["التحليل العميق", "صناعة المحتوى", "الرد الذكي", "الأسعار والتفعيل"],
-        "input_label": "حلل محتوى الإعلان:",
-        "input_place": "ضع نص الإعلان هنا...",
-        "btn_start": "بدء التحليل",
-        "offer": "🚀 منصة احترافية مخصصة لخبراء التجارة الإلكترونية.",
-        "wa_msg": "تفعيل الاشتراك الآن ✅"
+        "title": "AdSpy AI: منصة إدارة المبيعات المتكاملة",
+        "tabs": ["التحليل الذكي", "كتابة الإعلان", "بناء موقع مبيعات واجد", "الاشتراك الممتاز"],
+        "builder_label": "أدخل تفاصيل المنتج لبناء موقعك المباشر:",
+        "btn_build": "إنشاء الموقع ومعاينته الآن 🚀"
+    },
+    "English": {
+        "title": "AdSpy AI: All-in-One Website Platform",
+        "tabs": ["Smart Analysis", "AI Copywriting", "Build Live Sales Page", "Premium Plans"],
+        "builder_label": "Enter product details for your live page:",
+        "btn_build": "Build & Preview My Page 🚀"
     },
     "Français": {
-        "title": "AdSpy AI: Intelligence Globale",
-        "tabs": ["Analyse Profonde", "Rédaction IA", "Réponse CRM", "Tarification"],
-        "input_label": "Analyser le contenu publicitaire :",
-        "input_place": "Collez le texte de votre pub ici...",
-        "btn_start": "Lancer l'analyse",
-        "offer": "🚀 Suite IA Professionnelle pour les Experts.",
-        "wa_msg": "Activer le Plan Pro ✅"
+        "title": "AdSpy AI: Créateur de Site de Vente Tout-en-Un",
+        "tabs": ["Analyse Smart", "Rédaction IA", "Créer un Site Live", "Abonnements"],
+        "builder_label": "Entrez les détails du produit :",
+        "btn_build": "Créer & Prévisualiser la Page 🚀"
     }
 }
 
 data = content[st.session_state.lang]
-
-st.title(f"💎 {data['title']}")
-st.info(data["offer"])
+st.title(f"🛍️ {data['title']}")
 
 tab1, tab2, tab3, tab4 = st.tabs(data["tabs"])
 
 with tab1:
     st.subheader(data["tabs"][0])
-    # هنا صلحنا المشكل: الـ label و الـ placeholder كيتبدلو على حساب اللغة
-    st.text_area(data["input_label"], placeholder=data["input_place"], height=150, key="t1")
-    if st.button(data["btn_start"], key="b1"):
-        with st.spinner('AI Processing...'):
-            time.sleep(1.5)
-            st.success("✅ Process Finished.")
+    st.text_area("Analyze / تحليل:", key="t1")
+    st.button("Start / ابدأ", key="b1")
 
 with tab2:
     st.subheader(data["tabs"][1])
-    st.text_input("Brand/Product:" if st.session_state.lang != "العربية" else "اسم المنتج:", key="t2")
-    st.button("Generate" if st.session_state.lang != "العربية" else "توليد", key="b2")
+    p_name = st.text_input("Product Name / اسم المنتج:", key="t2")
+    if st.button("Generate Copy / توليد", key="b2"):
+        st.code(f"إعلان احترافي لـ {p_name}: أفضل جودة، توصيل سريع. اطلب الآن!")
 
+# --- التبويب المطور: بناء موقع مبيعات واجد ومباشر ---
 with tab3:
     st.subheader(data["tabs"][2])
-    st.text_input("Customer Inquiry:" if st.session_state.lang != "العربية" else "استفسار العميل:", key="t3")
-    st.button("Reply" if st.session_state.lang != "العربية" else "رد", key="b3")
+    st.write(data["builder_label"])
+    
+    col_a, col_b = st.columns(2)
+    with col_a:
+        prod_title = st.text_input("Product Title / عنوان المنتج", key="prod_title")
+        prod_price = st.text_input("Price / الثمن (DH)", key="prod_price")
+    with col_b:
+        prod_desc = st.text_area("Description / وصف قصير", key="prod_desc")
+    
+    if st.button(data["btn_build"], key="b3"):
+        with st.spinner('Generating Professional Live Website...'):
+            time.sleep(1.5)
+            # ديزاين احترافي لصفحة المبيعات (أوتوماتيكي)
+            landing_html = f"""
+            <html>
+                <body style='font-family: Arial, sans-serif; text-align: center; padding: 40px; background-color: #f4f7f6;'>
+                    <div style='background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); max-width: 600px; margin: auto;'>
+                        <h1 style='color: #2c3e50; font-size: 32px;'>{prod_title}</h1>
+                        <p style='font-size: 18px; color: #7f8c8d;'>{prod_desc}</p>
+                        <h2 style='color: #e74c3c; font-size: 28px; margin-top: 20px;'>السعر: {prod_price} درهم</h2>
+                        <button style='background-color: #27ae60; color: white; padding: 15px 30px; border: none; border-radius: 5px; font-size: 22px; cursor: pointer; margin-top: 25px;'>
+                            اشترِ الآن
+                        </button>
+                    </div>
+                </body>
+            </html>
+            """
+            st.success("✅ تم إنشاء الموقع بنجاح! يمكن لزبنائك الآن معاينة موقع المبيعات الخاص بهم.")
+            st.write("---")
+            st.markdown("### معاينة الموقع (Preview):")
+            # عرض الموقع مباشرة داخل Streamlit
+            components.html(landing_html, height=500)
+            st.markdown("### كود الموقع (HTML Code):")
+            st.code(landing_html, language="html")
 
 with tab4:
-    st.header("💰 Business Subscription")
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("### Premium: 25$ / month")
-        st.markdown("### Business: 89$ / year")
-    with col2:
-        wa_url = "https://wa.me/212607573180?text=I%20want%20to%20activate%20AdSpy%20Pro"
-        st.link_button(data["wa_msg"], wa_url, type="primary", use_container_width=True)
+    st.header("💳 الخطط الشهرية")
+    st.markdown("### اشتراك صانع المواقع: 25$ / الشهر")
+    st.write("- تحليل إعلانات غير محدود")
+    st.write("- بناء عدد غير محدود من صفحات الهبوط المباشرة")
+    wa_url = "https://wa.me/212607573180?text=I%20want%20to%20activate%20AdSpy%20Builder"
+    st.link_button("Activate My Account ✅", wa_url, type="primary")
 
 st.divider()
-st.caption("AdSpy Pro v4.8 | Enterprise Edition")
+st.caption("AdSpy Pro v6.0 | Website Builder Enterprise")
