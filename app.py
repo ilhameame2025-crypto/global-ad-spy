@@ -1,90 +1,79 @@
 import streamlit as st
 
-# 1. إعدادات الصفحة
+# 1. Config
 st.set_page_config(page_title="AdSpy AI Global", page_icon="💎", layout="wide")
 
-# 2. القاموس (عربية، فرنسية، إنجليزية) - حيدت تبويب المنتجات
+# 2. القاموس باللغات (مع إضافة باقات الاشتراك)
 translations = {
     "English": {
-        "title": "AdSpy AI: Global E-com Success",
-        "scarcity": "🔥 LIMITED: 50% OFF - Only 7 Slots Today!",
-        "sidebar_head": "🔐 Unlock PRO Version",
-        "price": "Now: $25/Month",
-        "bank_info": "💳 Bank Transfer (SWIFT):",
-        "wa_btn": "Get My Activation Code ✅",
-        "tabs": ["🔍 Ad Insights", "✍️ AI Copywriter", "🏗️ Web Builder", "🎬 Video Scripts"]
+        "sidebar_head": "🔐 Choose Your Plan",
+        "monthly": "Basic: $25/Month",
+        "quarterly": "Growth: $60/3 Months (Save 20%)",
+        "yearly": "Pro: $180/Year (Save 40%)",
+        "wa_msg": "I_want_to_subscribe_to_plan_",
+        "tabs": ["🔍 Ad Analysis", "✍️ AI Copy", "🏗️ Web Builder", "🎬 Video Scripts"]
     },
     "Français": {
-        "title": "AdSpy AI: Succès E-com Global",
-        "scarcity": "🔥 OFFRE: -50% Aujourd'hui!",
-        "sidebar_head": "🔐 Activer la Version PRO",
-        "price": "Prix: 25$/Mois",
-        "bank_info": "💳 Virement Bancaire (SWIFT):",
-        "wa_btn": "Obtenir mon code ✅",
+        "sidebar_head": "🔐 Choisissez votre Plan",
+        "monthly": "Basique: 25$/Mois",
+        "quarterly": "Croissance: 60$/3 Mois (-20%)",
+        "yearly": "Pro: 180$/An (-40%)",
+        "wa_msg": "Je_veux_m_abonner_au_plan_",
         "tabs": ["🔍 Analyse Pub", "✍️ Rédaction IA", "🏗️ Créateur Web", "🎬 Scripts Vidéo"]
     },
     "العربية": {
-        "title": "AdSpy AI: نجاح التجارة العالمية",
-        "scarcity": "🔥 عرض خاص: خصم 50% متبقي 7 حسابات فقط!",
-        "sidebar_head": "🔐 تفعيل النسخة الاحترافية",
-        "price": "الثمن: 25 دولار/شهر",
-        "bank_info": "💳 التحويل البنكي الدولي (SWIFT):",
-        "wa_btn": "احصل على كود التفعيل ✅",
+        "sidebar_head": "🔐 اختر باقة الاشتراك",
+        "monthly": "الباقة الشهرية: 25 دولار/شهر",
+        "quarterly": "باقة 3 أشهر: 60 دولار (وفر 20%)",
+        "yearly": "الباقة السنوية: 180 دولار (وفر 40%)",
+        "wa_msg": "اريد_الاشتراك_في_باقة_",
         "tabs": ["🔍 تحليل الإعلانات", "✍️ كاتب المحتوى", "🏗️ صانع المواقع", "🎬 سيناريو فيديو"]
     }
 }
 
-with st.sidebar:
-    lang_choice = st.selectbox("🌐 Language", ["English", "Français", "العربية"])
-    st.divider()
-
+lang_choice = st.sidebar.selectbox("🌐 Language", ["English", "Français", "العربية"])
 t = translations[lang_choice]
 
-if 'is_pro' not in st.session_state:
-    st.session_state.is_pro = False
-
-# 3. معلومات Bankalik (Attijari) - المصدر الوحيد للربح دابا
+# 3. عرض الاشتراكات في القائمة الجانبية
 with st.sidebar:
     st.header(t["sidebar_head"])
-    st.success(t["price"])
-    st.info(f"*{t['bank_info']}*")
+    
+    plan = st.radio("Select Plan / اختر باقة:", [t["monthly"], t["quarterly"], t["yearly"]])
+    
+    st.divider()
+    st.info("*💳 Bank Transfer (SWIFT):*")
     st.code("RIB: 007450000972130040048374\nSWIFT: BCWAMA BX", language="text")
     st.write("*Name:* ILHAM AMEZZARGOU")
     
-    # رابط الواتساب لتلقي التحويلات
-    wa_url = f"https://wa.me/212607573180?text=I_want_to_activate_PRO_v32"
-    st.link_button(t["wa_btn"], wa_url)
-    
-    st.divider()
-    key = st.text_input("Enter License Key:", type="password")
-    if st.button("Activate Now"):
-        if key == "GLOBAL_PRO_2026":
-            st.session_state.is_pro = True
-            st.balloons()
+    # تحديد رسالة الواتساب على حسب الباقة
+    plan_name = plan.split(":")[0]
+    wa_url = f"https://wa.me/212607573180?text={t['wa_msg']}{plan_name}"
+    st.link_button("Confirm Payment on WhatsApp ✅", wa_url)
 
-# 4. الواجهة الرئيسية
-st.title(t["title"])
-st.error(t["scarcity"])
-
+# 4. الواجهة الرئيسية (نفس ميزات النسخة السابقة)
+st.title("AdSpy AI Global 🚀")
 tabs = st.tabs(t["tabs"])
 
-# الميزات المجانية (التبويب الأول والثاني)
+# ميزات فابور (تجريبية)
 for i in [0, 1]:
     with tabs[i]:
         st.subheader(t["tabs"][i])
-        st.text_area("Input Data:", key=f"f_in_{i}")
-        st.button("Start Analysis", key=f"f_bt_{i}")
+        st.text_area("Input:", key=f"f_{i}")
+        st.button("Analyze", key=f"fb_{i}")
 
-# ميزات الـ PRO (التبويب الثالث والرابع)
+# ميزات الـ PRO
 for i in [2, 3]:
     with tabs[i]:
-        if st.session_state.is_pro:
-            st.subheader(f"✅ {t['tabs'][i]}")
-            st.info("Professional Tool Unlocked.")
+        if 'is_pro' in st.session_state and st.session_state.is_pro:
+            st.success("Unlocked ✅")
         else:
-            st.warning("🔒 This Feature Requires PRO Membership")
-            st.image("https://via.placeholder.com/800x250?text=Premium+Access+Only")
-            st.link_button(t["wa_btn"], wa_url, key=f"p_bt_{i}")
+            st.warning("🔒 PRO Feature")
+            st.link_button("Upgrade Now", wa_url)
 
-st.divider()
-st.caption("AdSpy Global v32.0 | Clean Business Edition | By Ilham")
+# تفعيل الكود (Manual Activation)
+st.sidebar.divider()
+key = st.sidebar.text_input("License Key:", type="password")
+if st.sidebar.button("Activate"):
+    if key == "GLOBAL_PRO_2026":
+        st.session_state.is_pro = True
+        st.balloons()
