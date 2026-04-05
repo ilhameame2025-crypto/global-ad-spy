@@ -1,36 +1,68 @@
 import streamlit as st
 
-st.set_page_config(page_title="AdSpy AI Global", layout="wide")
+# إعدادات الصفحة
+st.set_page_config(page_title="AdSpy AI Pro", page_icon="🚀")
 
-# زر اختيار اللغة في الجنب
-lang = st.sidebar.selectbox("Select Language / اختر اللغة", ["English", "العربية"])
+# نظام تبديل اللغات
+if 'lang' not in st.session_state:
+    st.session_state.lang = 'English'
 
-if lang == "English":
-    title = "🚀 AdSpy AI: Global Intelligence"
-    desc = "Analyze competitor ads using AI to scale your business."
-    label = "Enter Ad Copy or URL:"
-    btn = "Start Analysis"
-    success_msg = "✅ Analyzing data for global markets..."
-    sidebar_title = "Settings"
-elif lang == "العربية":
-    title = "🚀 AdSpy AI: المنصة العالمية"
-    desc = "حلل إعلانات المنافسين بالذكاء الاصطناعي لتطوير تجارتك."
-    label = "أدخل نص الإعلان أو الرابط:"
-    btn = "ابدأ التحليل"
-    success_msg = "✅ جاري تحليل البيانات للسوق العربي..."
-    sidebar_title = "الإعدادات"
-
-# واجهة الموقع المتغيرة
-st.title(title)
-st.write(desc)
-
-ad_content = st.text_area(label)
-
-if st.button(btn):
-    if ad_content:
-        st.success(success_msg)
+def change_lang():
+    if st.session_state.lang == 'English':
+        st.session_state.lang = 'العربية'
     else:
-        st.warning("Please enter text / المرجو إدخال نص")
+        st.session_state.lang = 'English'
 
-st.sidebar.title(sidebar_title)
-st.sidebar.write("💰 Premium: $29/mo")
+# القائمة الجانبية
+with st.sidebar:
+    st.title("Settings / الإعدادات")
+    st.button("Change Language / تغيير اللغة", on_click=change_lang)
+    st.write("---")
+    st.write("Developed by Ilham (MSD Student)")
+
+# محتوى الموقع بناءً على اللغة
+if st.session_state.lang == 'English':
+    st.title("🚀 AdSpy AI: Professional Intelligence")
+    tab1, tab2, tab3 = st.tabs(["Analyze Ad", "Write New Ad", "Customer Reply"])
+    
+    with tab1:
+        st.subheader("Analyze your competitor's ad")
+        ad_text = st.text_area("Paste the ad text here:")
+        if st.button("Start Analysis"):
+            st.info(f"Analyzing: {ad_text[:30]}...")
+            st.success("Analysis: This ad is good but needs a stronger Call to Action.")
+            
+    with tab2:
+        st.subheader("Generate a winning ad")
+        product = st.text_input("What are you selling?")
+        if st.button("Write Ad for me"):
+            st.code(f"Special Offer! Get your {product} today with 20% discount. Limited time!")
+
+    with tab3:
+        st.subheader("Reply to Customer")
+        comment = st.text_input("Customer's Question:")
+        if st.button("Generate Reply"):
+            st.write(f"Reply: Hello! Thank you for asking about {comment}. We'd be happy to help!")
+
+else:
+    st.title("🚀 AdSpy AI: الذكاء العالمي")
+    tab1, tab2, tab3 = st.tabs(["تحليل إعلان", "كتابة إعلان جديد", "رد على زبون"])
+    
+    with tab1:
+        st.subheader("حلل إعلان منافسيك")
+        ad_text = st.text_area("لصق نص الإعلان هنا:")
+        if st.button("ابدأ التحليل"):
+            st.info(f"جاري تحليل: {ad_text[:30]}...")
+            st.success("النتيجة: الإعلان جيد، لكن ننصح بإضافة لمسة عاطفية أكثر.")
+            
+    with tab2:
+        st.subheader("اكتب إعلان احترافي")
+        product = st.text_input("شنو هو المنتج ديالك؟")
+        if st.button("اكتب لي الإعلان"):
+            st.code(f"عرض خاص! احصل على {product} اليوم بخصم 20%. الكمية محدودة!")
+
+    with tab3:
+        st.subheader("رد ذكي على الزبون")
+        comment = st.text_input("سؤال الزبون:")
+        if st.button("توليد الرد"):
+            st.write(f"الرد المقترح: أهلاً بك! شكراً على استفسارك بخصوص {comment}. نحن هنا للمساعدة!")
