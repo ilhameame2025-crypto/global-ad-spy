@@ -1,50 +1,46 @@
 import streamlit as st
 
-# 1. Page Configuration (Keep at very top)
-st.set_page_config(page_title="AdSpy AI Global", page_icon="🚀", layout="wide")
+# 1. Page Config
+st.set_page_config(page_title="AdSpy AI Global", page_icon="🌎", layout="wide")
 
-# 2. Complete Language Dictionary (The brain of the site)
+# 2. قاموس اللغات (عربية، إنجليزية، فرنسية) - كولشي مترجم بالكامل
 translations = {
     "English": {
-        "title": "AdSpy AI: The #1 Hub for Global E-com Success",
-        "scarcity": "🔥 URGENT: 50% OFF - Only 7 Licenses Left Today!",
-        "sidebar": {
-            "title": "Unlock Success Now",
-            "price": "SPECIAL: $25/Month (Real Value: $500)",
-            "proof": "Join 5,000+ Millionaire Entrepreneurs Worldwide",
-            "rib_label": "Global Bank Transfer (SWIFT):",
-            "get_code": "Get My Activation Code Now ✅",
-            "key_label": "Enter License Key",
-            "activate_btn": "Activate PRO"
-        },
-        "tabs": ["🔍 Ad Analysis", "✍️ AI Copywriter", "💡 Product Trends", "🏗️ Global Web Builder", "🎬 Viral Video Scripts"],
-        "tab_msg": "Feature available in free version",
-        "locked_msg": "This High-Income tool is Locked",
-        "lock_info": "Upgrade to PRO and get instant access to viral skills."
+        "title": "AdSpy AI: Global E-com Mastery",
+        "scarcity": "🔥 URGENT: 50% OFF - Only 7 Slots Left!",
+        "sidebar_head": "🔐 Activate Premium",
+        "price": "Now $25/Month (was $50)",
+        "bank_info": "💳 Bank Transfer (Global SWIFT):",
+        "wa_btn": "Get Activation Code ✅",
+        "tabs": ["🔍 Ad Analysis", "✍️ AI Copy", "💡 Trends", "🏗️ Web Builder", "🎬 Video Scripts"],
+        "ad_label": "✨ Supported by Ads"
+    },
+    "Français": {
+        "title": "AdSpy AI: Maîtrise E-com Globale",
+        "scarcity": "🔥 OFFRE LIMITÉE: -50% Aujourd'hui!",
+        "sidebar_head": "🔐 Activer l'accès PRO",
+        "price": "Seulement 25$/Mois (au lieu de 50$)",
+        "bank_info": "💳 Virement Bancaire (SWIFT):",
+        "wa_btn": "Obtenir le code ✅",
+        "tabs": ["🔍 Analyse Pub", "✍️ Copie IA", "💡 Tendances", "🏗️ Créateur Web", "🎬 Scripts Vidéo"],
+        "ad_label": "✨ Supporté par la publicité"
     },
     "العربية": {
-        "title": "AdSpy AI: المنصة العالمية الأولى لنجاح التجارة الإلكترونية",
-        "scarcity": "🔥 عاجل: خصم 50% متبقي 7 حسابات فقط لهذا اليوم!",
-        "sidebar": {
-            "title": "تفعيل الاشتراك الممتاز",
-            "price": "💎 همزة اليوم: 25 دولار فقط/شهر (بدل 50 دولار)",
-            "proof": "✨ انضم لأكثر من 5000 مقاول ناجح حول العالم",
-            "rib_label": "💳 التحويل البنكي الدولي (SWIFT):",
-            "get_code": "الحصول على كود التفعيل الآن ✅",
-            "key_label": "أدخل كود التفعيل هنا",
-            "activate_btn": "تفعيل حساب PRO"
-        },
+        "title": "AdSpy AI: احتراف التجارة العالمية",
+        "scarcity": "🔥 عرض خاص: خصم 50% متبقي 7 حسابات فقط!",
+        "sidebar_head": "🔐 تفعيل النسخة الاحترافية",
+        "price": "25 دولار فقط/شهر (بدل 50 دولار)",
+        "bank_info": "💳 التحويل البنكي الدولي (SWIFT):",
+        "wa_btn": "احصل على كود التفعيل ✅",
         "tabs": ["🔍 تحليل الإعلانات", "✍️ كاتب المحتوى", "💡 أفكار منتجات", "🏗️ صانع المواقع", "🎬 سيناريو فيديو"],
-        "tab_msg": "هذه الميزة متاحة مجاناً",
-        "locked_msg": "هذه الأداة الاحترافية مقفولة بقفل",
-        "lock_info": "Upgrade to PRO and get instant access to viral skills." # رسالة عالمية
+        "ad_label": "✨ مساحة إعلانية للربح"
     }
 }
 
-# 3. Choose Language
+# 3. Sidebar Configuration
 with st.sidebar:
-    st.title("⚙️ Settings / الإعدادات")
-    lang_choice = st.selectbox("🌐 Select Language", ["English", "العربية"])
+    st.title("⚙️ Config")
+    lang_choice = st.selectbox("🌐 Language", ["English", "Français", "العربية"])
     st.divider()
 
 t = translations[lang_choice]
@@ -52,61 +48,50 @@ t = translations[lang_choice]
 if 'is_pro' not in st.session_state:
     st.session_state.is_pro = False
 
-# 4. Attractive Sidebar with Scarcity
+# 4. معلومات Bankalik الصحيحة
 with st.sidebar:
-    st.header(t["sidebar"]["title"])
-    st.success(f"💎 {t['sidebar']['price']}")
-    st.info(f"🏆 {t['sidebar']['proof']}")
-    st.divider()
+    st.header(t["sidebar_head"])
+    st.success(t["price"])
+    st.info(f"*{t['bank_info']}*")
+    # تصحيح السويفت للتجاري وفا بنك
+    st.code("RIB: 007450000972130040048374\nSWIFT: BCWAMA BX", language="text")
+    st.write("*Account Holder:* ILHAM AMEZZARGOU")
     
-    st.write(t["sidebar"]["rib_label"])
-    st.code("RIB: 007450000972130040048374\nSWIFT: BCMAMAMC", language="text")
-    st.write("*Name:* ILHAM AMEZZARGOU")
-    
-    # WhatsApp activation
-    wa_url = f"https://wa.me/212607573180?text=I_paid_for_AdSpy_Pro_Verification"
-    st.link_button(t["sidebar"]["get_code"], wa_url)
+    wa_url = f"https://wa.me/212607573180?text=I_want_to_activate_Pro_v28"
+    st.link_button(t["wa_btn"], wa_url)
     
     st.divider()
-    
-    license_key = st.text_input(t["sidebar"]["key_label"], type="password")
-    if st.button(t["sidebar"]["activate_btn"]):
-        if license_key == "GLOBAL_PRO_2026": # The activation code
+    key = st.text_input("License Key:", type="password")
+    if st.button("Unlock"):
+        if key == "GLOBAL_PRO_2026": # كود الساروت ديالك
             st.session_state.is_pro = True
             st.balloons()
-            st.success("Access Granted! ✅")
 
-# 5. Main Content Area
+# 5. Main Content + Ads Space
 st.title(t["title"])
 st.error(t["scarcity"])
 
-# Tabs (4 فابور + 1 برو)
+# --- مساحة الربح من إعلانات جوجل ---
+st.markdown(f"""
+    <div style="background-color: #f9f9f9; padding: 15px; border-radius: 8px; text-align: center; border: 1px solid #ddd; margin-bottom: 20px;">
+        <p style="color: #888; font-size: 11px; margin-bottom: 5px;">{t['ad_label']}</p>
+        <div style="color: #444; font-weight: bold;">[ Google AdSense Ad Space ]</div>
+    </div>
+""", unsafe_allow_html=True)
+
+# 6. Tabs Content
 tabs = st.tabs(t["tabs"])
 
-for i in range(3):
+for i in range(len(t["tabs"])):
     with tabs[i]:
-        st.subheader(t["tabs"][i])
-        st.info(t["tab_msg"])
-        st.text_area("Input:", height=100, key=f"f_in_{i}")
-        st.button("Start Now", key=f"f_btn_{i}")
-
-with tabs[3]: # صانع المواقع (PRO)
-    if st.session_state.is_pro:
-        st.header("🏗️ Global Web Builder")
-        # كود بناء المواقع هنا
-    else:
-        st.warning(f"🔒 {t['locked_msg']}")
-        st.write(t["lock_info"])
-        st.markdown(f"### {t['sidebar']['price']}")
-        st.image("https://via.placeholder.com/800x300?text=Premium+dashboard+preview")
-
-with tabs[4]: # سيناريو فيديو (PRO)
-    if st.session_state.is_pro:
-        st.header("🎬 Viral Video Scripts")
-        # كود سيناريو الفيديو هنا
-    else:
-        st.warning(f"🔒 {t['locked_msg']}")
-        st.image("https://via.placeholder.com/800x300?text=PRO+dashboard+preview")
+        if i > 2 and not st.session_state.is_pro:
+            st.warning("🔒 This is a PRO Feature")
+            st.write("Upgrade to unlock this tool and scale your business.")
+            st.image("https://via.placeholder.com/800x200?text=Premium+Feature+Locked")
+        else:
+            st.subheader(t["tabs"][i])
+            st.text_area("Input:", key=f"inp_{i}")
+            st.button("Analyze", key=f"btn_{i}")
 
 st.divider()
-st.caption(f"AdSpy Global v26.0 | Success Path by Ilham (FST Marrakech)")
+st.caption(f"AdSpy Global v28.0 | Powered by Ilham | {lang_choice} Edition")
