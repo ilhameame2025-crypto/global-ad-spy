@@ -1,58 +1,64 @@
 import streamlit as st
 
-# 1. إعدادات الصفحة
-st.set_page_config(page_title="AdSpy AI Enterprise", page_icon="🔐")
+# 1. إعدادات الصفحة (الأساس باش ميوقعش Error)
+st.set_page_config(page_title="AdSpy AI Morocco", page_icon="🇲🇦", layout="wide")
 
-# 2. قاعدة بيانات الأكواد (كل كود تبيعية لشخص واحد فقط)
-# نصيحة: ملي تبيعي كود، تقدري تمسحيه من هنا أو تكتبي حداه سميتو باش تعقلي
-USER_DATABASE = {
-    "ADSPY-ILHAM-001": "Ahmed_Casa",
-    "ADSPY-VIP-992": "Sara_Marrakech",
-    "KEY-7721-BBS": "User_Test",
-    "GOLD-2026-X": "Special_Client"
-}
+# 2. العنوان الرئيسي
+st.title("🚀 AdSpy AI: المنصة رقم #1 للمقاولين المغاربة")
+st.divider()
 
-if 'auth' not in st.session_state:
-    st.session_state.auth = False
+# 3. تنظيم التبويبات (Tabs)
+tab1, tab2 = st.tabs(["🔍 جرب التحليل مجاناً", "🔓 تفعيل الاشتراك (Bankalik)"])
 
-# 3. واجهة الدخول الاحترافية
-if not st.session_state.auth:
-    st.title("🔐 بوابة المشتركين")
-    st.info("المرجو إدخال مفتاح الترخيص الخاص بك للوصول إلى المنصة.")
+with tab1:
+    st.subheader("تحليل الإعلانات بالذكاء الاصطناعي")
+    st.info("اكتب نص إعلانك لترى قوة التحليل قبل الدفع")
+    ad_text = st.text_area("نص الإعلان هنا:", placeholder="مثلاً: أفضل منتج للعناية بالبشرة...")
     
-    license_key = st.text_input("مفتاح الترخيص (License Key):", type="password")
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("تفعيل الحساب الآن ✅"):
-            if license_key in USER_DATABASE:
-                st.session_state.auth = True
-                st.session_state.user = USER_DATABASE[license_key]
-                st.rerun() # إعادة تحميل الصفحة للدخول
-            else:
-                st.error("❌ المفتاح غير صحيح أو تم استخدامه مسبقاً.")
-    
-    with col2:
-        st.link_button("طلب مفتاح جديد (25$) 📲", "https://wa.me/212607573180")
+    if st.button("بدء التحليل المجاني"):
+        if ad_text:
+            st.success("✅ تم التحليل! النص جذاب ومناسب للجمهور المغربي.")
+            st.write("---")
+            st.warning("⚠️ للوصول إلى التحليل العميق وبناء المواقع، المرجو تفعيل حسابك.")
+        else:
+            st.error("المرجو إدخال نص أولاً!")
 
-else:
-    # 4. الواجهة الاحترافية بعد الدخول
-    st.sidebar.success(f"مرحباً: {st.session_state.user}")
-    if st.sidebar.button("تسجيل الخروج"):
-        st.session_state.auth = False
-        st.rerun()
-
-    st.title("🚀 AdSpy AI Global System")
+with tab2:
+    st.header("تفعيل الحساب والوصول لجميع الميزات 💎")
     
-    # تبويبات الخدمة
-    t1, t2, t3 = st.tabs(["📊 التحليل الذكي", "🏗️ صانع المواقع", "🎁 هدايا المشتركين"])
+    col_info, col_form = st.columns([1, 1])
     
-    with t1:
-        st.subheader("تحليل الإعلانات المتطور")
-        st.write("الآن يمكنك البدء بتحليل إعلانات منافسيك.")
-        # كود التحليل هنا...
+    with col_info:
+        st.markdown("""
+        ### 💳 معلومات الدفع (Bankalik)
+        يمكنك الدفع عبر تطبيق *Bankalik* أو أي تطبيق بنكي مغربي آخر.
+        """)
+        # RIB ديالك (تأكدي منو وحطيه هنا)
+        st.code("RIB: 011 450 0000000000 0000 00", language="text") 
+        st.write("*الاسم الكامل:* ILHAM AMEZZARGOU")
+        st.write("*الثمن:* 250 درهم فقط / شهر")
+        st.success("✨ تفعيل فوري بعد إرسال صورة التحويل")
 
-    with t2:
-        st.subheader("بناء صفحة هبوط في دقيقة")
-        st.write("أدخل معلومات المنتج للحصول على الموقع.")
-        # كود بناء المواقع هنا...
+    with col_form:
+        st.subheader("إرسال طلب التفعيل")
+        with st.form("bank_transfer_form"):
+            client_name = st.text_input("اسمك الكامل:")
+            client_phone = st.text_input("رقم الواتساب الخاص بك:")
+            st.write("---")
+            st.write("📢 بعد إتمام التحويل، اضغط على الزر أسفله لإرسال 'الريكو' (Recu) في الواتساب.")
+            
+            submit_btn = st.form_submit_button("تسجيل الطلب وإرسال التوصيل 🚀")
+            
+            if submit_btn:
+                if client_name and client_phone:
+                    st.balloons()
+                    st.success(f"شكراً {client_name}! طلبك قيد المعالجة.")
+                    # رسالة واتساب أوتوماتيكية فيها معلومات الكليان
+                    wa_url = f"https://wa.me/212607573180?text=سلام_إلهام_أنا_{client_name}_هذا_توصيل_Bankalik_لتفعيل_حسابي"
+                    st.link_button("إرسال التوصيل عبر الواتساب ✅", wa_url)
+                else:
+                    st.error("المرجو ملء جميع الخانات!")
+
+# 4. تذييل الصفحة
+st.divider()
+st.caption("AdSpy Pro v16.0 | Powered by Ilham Amezzargou | FST Marrakech")
