@@ -1,119 +1,101 @@
 import streamlit as st
 import time
 
-# إعدادات الصفحة مع الثيم الاحترافي
-st.set_page_config(
-    page_title="AdSpy AI Global Pro", 
-    page_icon="🚀", 
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+# إعدادات الصفحة والستايل (الزواقع)
+st.set_page_config(page_title="AdSpy AI Global", page_icon="🚀", layout="wide")
 
-# نظام اختيار اللغات (عربية، فرنسية، إنجليزية)
-if 'lang' not in st.session_state:
-    st.session_state.lang = 'العربية'
-
-# تنسيق الموقع بالألوان (CSS) - "زواقع" بصرية
+# كود لتغيير الألوان والشكل (Dark Mode & Professional Colors)
 st.markdown("""
     <style>
-    .main {
-        background-color: #0e1117;
+    .stApp {
+        background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+        color: white;
     }
     .stButton>button {
-        width: 100%;
-        border-radius: 10px;
-        height: 3em;
-        background-color: #ff4b4b;
+        background-color: #00d2ff;
         color: white;
+        border-radius: 20px;
+        border: none;
+        transition: 0.3s;
     }
-    .stTextArea>div>div>textarea {
-        background-color: #262730;
-        color: white;
+    .stButton>button:hover {
+        background-color: #3a7bd5;
+        transform: scale(1.05);
     }
     </style>
     """, unsafe_content_allowed=True)
 
-with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/2103/2103633.png", width=80)
-    st.title("إعدادات المنصة")
-    st.session_state.lang = st.selectbox("Language / اللغة", ["العربية", "Français", "English"])
-    st.write("---")
-    st.markdown("### 💎 العضوية الممتازة")
-    st.info("المطور: إلهام (طالبة MSD)")
-    st.write("التحديث: v3.0 (2026)")
+# نظام اللغات
+if 'lang' not in st.session_state:
+    st.session_state.lang = 'العربية'
 
-# قاعدة البيانات اللغوية
+with st.sidebar:
+    st.header("🌐 Configuration")
+    st.session_state.lang = st.selectbox("Language / اللغة", ["العربية", "Français", "English"])
+    st.divider()
+    st.markdown("### 👑 Premium Status")
+    st.info("Dev: Ilham Amezzargou")
+    st.caption("FST Marrakech - MSD Department")
+
+# محتوى اللغات
 content = {
     "العربية": {
-        "title": "AdSpy AI: منصة الذكاء العالمي 🚀",
-        "tabs": ["تحليل إعلان", "توليد إعلان", "رد ذكي", "الاشتراك"],
-        "welcome": "مرحباً إلهام! المنصة جاهزة لتحليل إعلاناتك العالمية.",
-        "analyze_label": "أدخل نص الإعلان للتحليل العميق:",
-        "gen_label": "اكتب اسم المنتج وسنقوم بكتابة الإعلان:",
-        "reply_label": "أدخل تعليق الزبون وسنرد عليه بذكاء:",
-        "pay_title": "تفعيل النسخة الاحترافية",
-        "wa_text": "تواصل عبر واتساب للتفعيل ✅"
+        "title": "الذكاء العالمي للإعلانات",
+        "tabs": ["تحليل معمق", "توليد نصوص", "ردود ذكية", "تفعيل الاشتراك"],
+        "btn": "تحليل الآن",
+        "pay": "تواصل معنا لتفعيل حسابك"
     },
     "Français": {
-        "title": "AdSpy AI: Intelligence Marketing 🇫🇷",
-        "tabs": ["Analyser", "Générer", "Réponse IA", "Paiement"],
-        "welcome": "Bienvenue Ilham! Analysez et créez des publicités avec l'IA.",
-        "analyze_label": "Collez le texte de la publicité ici :",
-        "gen_label": "Quel produit voulez-vous vendre ?",
-        "reply_label": "Commentaire du client :",
-        "pay_title": "Activer la Version Premium",
-        "wa_text": "Contactez-nous sur WhatsApp ✅"
+        "title": "AdSpy Intelligence Global",
+        "tabs": ["Analyse", "Générateur", "Réponses", "Paiement"],
+        "btn": "Lancer l'analyse",
+        "pay": "Contactez-nous pour activer"
     },
     "English": {
-        "title": "AdSpy AI: Global Intelligence 🌍",
-        "tabs": ["Analyze", "Generate", "AI Reply", "Payment"],
-        "welcome": "Welcome Ilham! Scale your business using AI analysis.",
-        "analyze_label": "Paste the ad copy here for analysis:",
-        "gen_label": "What product are you selling?",
-        "reply_label": "Customer comment/question:",
-        "pay_title": "Unlock Full AI Access",
-        "wa_text": "Contact Support via WhatsApp ✅"
+        "title": "AdSpy AI Global Pro",
+        "tabs": ["Deep Analysis", "AI Copywriting", "Smart Reply", "Activation"],
+        "btn": "Run Analysis",
+        "pay": "Contact support for activation"
     }
 }
 
 data = content[st.session_state.lang]
-st.title(data["title"])
-st.write(f"🔔 {data['welcome']}")
+st.title(f"🚀 {data['title']}")
 
 tab1, tab2, tab3, tab4 = st.tabs(data["tabs"])
 
 with tab1:
     st.subheader(data["tabs"][0])
-    ad_txt = st.text_area(data["analyze_label"], height=150)
-    if st.button("Start / ابدأ", key="btn1"):
-        with st.spinner('Processing...'):
-            time.sleep(2)
-            st.success("✅ النتيجة: الإعلان يحتاج إلى تحسين في العنونة لجذب الانتباه.")
+    ad_input = st.text_area("Paste here / حط النص هنا:", height=150)
+    if st.button(data["btn"], key="btn1"):
+        with st.spinner('AI is thinking...'):
+            time.sleep(1.5)
+            st.success("✅ النتيجة: الإعلان ممتاز تقنياً، لكن يحتاج لتركيز أكبر على فوائد المنتج.")
 
 with tab2:
     st.subheader(data["tabs"][1])
-    prod_name = st.text_input(data["gen_label"])
-    if st.button("Write / اكتب", key="btn2"):
-        st.code(f"Ad Copy for {prod_name}:\nBest {prod_name} in the market! High quality and fast delivery. Order now!")
+    p_name = st.text_input("Product Name / اسم المنتج:")
+    if st.button("Generate / توليد", key="btn2"):
+        st.code(f"AI Written Ad: Get the best {p_name} today! Limited offer.")
 
 with tab3:
     st.subheader(data["tabs"][2])
-    comm = st.text_input(data["reply_label"])
-    if st.button("Generate Reply / رد", key="btn3"):
-        st.info(f"🤖 الرد: شكراً على تواصلكم بخصوص {comm}. سيتم الرد عليكم في الخاص فوراً.")
+    q = st.text_input("Customer Question / سؤال الزبون:")
+    if st.button("Get Reply / رد", key="btn3"):
+        st.info("🤖 Reply: Hello! We have sent you a private message with all details.")
 
 with tab4:
-    st.header("💰 " + data["pay_title"])
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("### 📊 خطط الاشتراك:")
-        st.write("📍 شهري: 150 درهم")
-        st.write("📍 سنوي: 1000 درهم")
-    
-    with col2:
-        # تصحيح غلط الصورة 660ff716
-        whatsapp_url = "https://wa.me/212607573180?text=Hello%20Ilham%20I%20want%20to%20activate%20AdSpy%20Pro"
-        st.markdown(f'<a href="{whatsapp_url}" target="_blank" style="text-decoration: none;"><div style="background-color: #25D366; color: white; padding: 15px; text-align: center; border-radius: 10px; font-weight: bold; font-size: 18px;">{data["wa_text"]}</div></a>', unsafe_content_allowed=True)
+    st.header(data["tabs"][3])
+    st.write(data["pay"])
+    # رابط واتساب برقمك 0607573180
+    wa_link = "https://wa.me/212607573180?text=Hello%20Ilham%20I%20want%20to%20subscribe"
+    st.markdown(f'''
+        <a href="{wa_link}" target="_blank" style="text-decoration: none;">
+            <div style="background-color: #25D366; color: white; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold;">
+                WhatsApp : تفعيل الاشتراك ✅
+            </div>
+        </a>
+    ''', unsafe_content_allowed=True)
 
 st.divider()
-st.caption("AdSpy AI v3.0 | Precision Engineering for MSD Students")
+st.caption("AdSpy AI v4.0 | Powered by Streamlit & Ilham's Logic")
