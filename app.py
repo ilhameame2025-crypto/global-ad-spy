@@ -1,89 +1,96 @@
 import streamlit as st
 import time
 
-# 1. الإعدادات الأساسية (لازم تكون هي الأولى)
-st.set_page_config(page_title="AdSpy AI Pro", page_icon="💰", layout="wide")
+# إعدادات الصفحة
+st.set_page_config(page_title="AdSpy AI Pro", page_icon="💎", layout="wide")
 
-# 2. القاموس اللغوي (مرتب ومنظم)
-content = {
+# نظام الترجمة الذكي
+if 'lang' not in st.session_state:
+    st.session_state.lang = 'العربية'
+
+with st.sidebar:
+    st.header("⚙️ الإعدادات / Settings")
+    st.session_state.lang = st.selectbox("اختر اللغة", ["العربية", "English", "Français"])
+    st.write("---")
+    st.info("إصدار الشركات Pro")
+    st.write("المطور: إلهام أمزرغو")
+
+# محتوى اللغات
+translations = {
     "العربية": {
-        "title": "الذكاء العالمي للإعلانات",
-        "tabs": ["التحليل الذكي", "كتابة الإعلان", "بناء المواقع", "خطط الاشتراك"],
-        "promo": "⏳ عرض محدود: باقي 7 حسابات فقط بخصم 50%!",
-        "wa_msg": "اريد تفعيل الخطة السنوية والاستفادة من العرض"
+        "tabs": ["التحليل العميق", "صناعة المحتوى", "بناء المواقع", "الأسعار"],
+        "analysis_label": "حلل محتوى الإعلان:",
+        "analysis_btn": "بدء التحليل",
+        "pricing_title": "انضم لأكثر من 1000 مقاول ناجح",
+        "monthly": "الخطة الشهرية",
+        "annual": "الخطة السنوية (الأكثر توفيراً)",
+        "wa_text": "أريد تفعيل اشتراكي الآن"
     },
     "English": {
-        "title": "AdSpy AI Global Pro",
-        "tabs": ["Smart Analysis", "AI Copy", "Web Builder", "Pricing"],
-        "promo": "⏳ Hurry! Only 7 slots left with 50% discount!",
-        "wa_msg": "I want to activate my Annual Plan now"
+        "tabs": ["Deep Analysis", "AI Copywriting", "Web Builder", "Pricing"],
+        "analysis_label": "Analyze Ad Content:",
+        "analysis_btn": "Start Analysis",
+        "pricing_title": "Join 1000+ Successful Entrepreneurs",
+        "monthly": "Monthly Plan",
+        "annual": "Annual Plan (Best Value)",
+        "wa_text": "I want to activate my plan"
+    },
+    "Français": {
+        "tabs": ["Analyse Profonde", "Rédaction IA", "Créateur Web", "Tarification"],
+        "analysis_label": "Analyser le contenu :",
+        "analysis_btn": "Lancer l'analyse",
+        "pricing_title": "Rejoignez 1000+ Entrepreneurs",
+        "monthly": "Pack Mensuel",
+        "annual": "Pack Annuel (Meilleure Valeur)",
+        "wa_text": "Je veux activer mon pack"
     }
 }
 
-# 3. القائمة الجانبية
-with st.sidebar:
-    st.header("⚙️ Settings")
-    lang_choice = st.selectbox("Language / اللغة", ["العربية", "English"])
-    st.write("---")
-    st.info("Status: Enterprise Pro Edition")
-    st.write("Dev: Ilham (FST Marrakech)")
+t = translations[st.session_state.lang]
 
-data = content[lang_choice]
+st.title(f"💎 AdSpy AI - {st.session_state.lang}")
+st.error("⏳ عرض خاص: خصم 50% ينتهي بنهاية اليوم!")
 
-# 4. الواجهة الرئيسية
-st.title(f"💎 {data['title']}")
-st.error(data['promo'])
-
-# تعريف التبويبات (هنا الحل النهائي لمشكل NameError)
-tab1, tab2, tab3, tab4 = st.tabs(data["tabs"])
+tab1, tab2, tab3, tab4 = st.tabs(t["tabs"])
 
 with tab1:
-    st.subheader(data["tabs"][0])
-    st.text_area("Analyze / تحليل:", height=150, key="analysis_input")
-    if st.button("Start AI Scan", key="btn_scan"):
-        with st.spinner('Analyzing...'):
+    st.subheader(t["tabs"][0])
+    st.text_area(t["analysis_label"], height=150)
+    if st.button(t["analysis_btn"]):
+        with st.spinner('جاري المعالجة...'):
             time.sleep(1)
-            st.success("✅ Analysis Complete.")
-
-with tab2:
-    st.subheader(data["tabs"][1])
-    prod_name = st.text_input("Product Name:", key="prod_name")
-    if st.button("Generate Ad Copy", key="btn_copy"):
-        st.code(f"أفضل {prod_name} في السوق! جودة عالية وتوصيل سريع. اطلب الآن!")
-
-with tab3:
-    st.subheader(data["tabs"][2])
-    c1, c2 = st.columns(2)
-    with c1:
-        st.text_input("Site Title / عنوان الموقع", key="s_title")
-        st.text_input("Price / الثمن", key="s_price")
-    with c2:
-        st.text_area("Description / الوصف", key="s_desc")
-    
-    if st.button("Generate Live Site 🚀", key="btn_build"):
-        st.success("✅ الموقع جاهز! (Preview Mode Active)")
+            st.success("✅ تمت العملية بنجاح")
 
 with tab4:
-    st.header("💳 انضم لأكثر من 1000 مقاول ناجح")
-    st.toast("🔥 شخص جديد اشترك في الخطة السنوية قبل قليل!")
+    st.header(t["pricing_title"])
+    st.toast("🔥 اشتراك جديد من طنجة قبل 5 دقائق!")
     
-    col_left, col_right = st.columns(2)
+    col1, col2 = st.columns(2)
     
-    with col_left:
-        st.info("### الخطة الشهرية: 25$")
-        st.write("✅ بناء مواقع غير محدود")
-        st.write("✅ دعم VIP عبر الواتساب")
-        st.link_button("اشترك شهرياً", f"https://wa.me/212607573180?text={data['wa_msg']}")
+    with col1:
+        st.markdown(f"""
+        <div style="border: 2px solid #e0e0e0; padding: 20px; border-radius: 15px; text-align: center; background-color: white;">
+            <h3 style="color: #333;">{t['monthly']}</h3>
+            <h1 style="color: #27ae60;">25$</h1>
+            <p>✅ بناء مواقع غير محدود</p>
+            <p>✅ دعم VIP 24/7</p>
+        </div>
+        """, unsafe_content_allowed=True)
+        st.write("")
+        st.link_button(f"🚀 {t['monthly']}", f"https://wa.me/212607573180?text={t['wa_text']}", use_container_width=True)
 
-    with col_right:
-        st.warning("### الخطة السنوية: 199$ (Best Value)")
-        st.write("🌟 *وفر 100$ كاملة*")
-        st.write("🌟 استشارة مجانية في الـ Dropshipping")
-        st.write("🌟 أولوية في تحديثات الذكاء الاصطناعي")
-        st.link_button("🏆 احصل على العرض السنوي", f"https://wa.me/212607573180?text={data['wa_msg']}", type="primary")
-
-    st.divider()
-    st.markdown("🔒 *ضمان استرجاع الأموال* | 💳 *CIH, PayPal, Crypto*")
+    with col2:
+        st.markdown(f"""
+        <div style="border: 3px solid #f1c40f; padding: 20px; border-radius: 15px; text-align: center; background-color: #fffdf0;">
+            <h3 style="color: #d4ac0d;">{t['annual']} 🔥</h3>
+            <h1 style="color: #d4ac0d;">199$</h1>
+            <p>🌟 <b>وفر 100$ كاملة</b></p>
+            <p>🌟 استشارة مجانية في التجارة الإلكترونية</p>
+            <p style="color: #e74c3c; font-weight: bold;">باقي 3 مقاعد فقط!</p>
+        </div>
+        """, unsafe_content_allowed=True)
+        st.write("")
+        st.link_button(f"🏆 {t['annual']}", f"https://wa.me/212607573180?text={t['wa_text']}", type="primary", use_container_width=True)
 
 st.divider()
-st.caption("AdSpy Pro v9.0 | Built by Ilham Amezzargou")
+st.caption(f"AdSpy Pro v9.5 | Designed by Ilham Amezzargou | Marrakech")
