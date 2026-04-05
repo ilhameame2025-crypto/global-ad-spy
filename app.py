@@ -1,106 +1,89 @@
 import streamlit as st
 import time
 
-# 1. إعدادات الصفحة الاحترافية
-st.set_page_config(page_title="AdSpy AI & Website Builder", page_icon="🚀", layout="wide")
+# 1. الإعدادات الأساسية (لازم تكون هي الأولى)
+st.set_page_config(page_title="AdSpy AI Pro", page_icon="💰", layout="wide")
 
-# 2. اللغات والمحتوى (مضبوط بالكامل)
+# 2. القاموس اللغوي (مرتب ومنظم)
 content = {
     "العربية": {
-        "title": "AdSpy AI: منصة النجاح المتكاملة",
-        "tabs": ["التحليل الذكي", "كتابة الإعلان", "بناء موقعك المباشر", "خطط الاشتراك"],
-        "hero_msg": "⏳ عرض محدود: باقي فقط 7 حسابات متوفرة بخصم 50% لهذا اليوم!",
-        "wa_text": "اريد تفعيل الاشتراك والحصول على الاستشارة المجانية"
+        "title": "الذكاء العالمي للإعلانات",
+        "tabs": ["التحليل الذكي", "كتابة الإعلان", "بناء المواقع", "خطط الاشتراك"],
+        "promo": "⏳ عرض محدود: باقي 7 حسابات فقط بخصم 50%!",
+        "wa_msg": "اريد تفعيل الخطة السنوية والاستفادة من العرض"
     },
     "English": {
-        "title": "AdSpy AI: Success Platform",
-        "tabs": ["Smart Analysis", "AI Copy", "Live Builder", "Pricing"],
-        "hero_msg": "⏳ Limited Offer: Only 7 slots left for 50% discount today!",
-        "wa_text": "I want to activate my plan and get free consultation"
+        "title": "AdSpy AI Global Pro",
+        "tabs": ["Smart Analysis", "AI Copy", "Web Builder", "Pricing"],
+        "promo": "⏳ Hurry! Only 7 slots left with 50% discount!",
+        "wa_msg": "I want to activate my Annual Plan now"
     }
 }
 
-# اختيار اللغة من الجنب
+# 3. القائمة الجانبية
 with st.sidebar:
     st.header("⚙️ Settings")
-    lang = st.selectbox("Language / اللغة", ["العربية", "English"])
+    lang_choice = st.selectbox("Language / اللغة", ["العربية", "English"])
     st.write("---")
-    st.info("Status: Enterprise Edition")
+    st.info("Status: Enterprise Pro Edition")
     st.write("Dev: Ilham (FST Marrakech)")
 
-data = content[lang]
+data = content[lang_choice]
 
-# 3. واجهة الموقع
-st.title(f"🚀 {data['title']}")
-st.error(data['hero_msg']) # نداء عاجل
+# 4. الواجهة الرئيسية
+st.title(f"💎 {data['title']}")
+st.error(data['promo'])
 
-# تعريف التبويبات (هنا فين كان المشكل، دابا مضبوطين)
+# تعريف التبويبات (هنا الحل النهائي لمشكل NameError)
 tab1, tab2, tab3, tab4 = st.tabs(data["tabs"])
 
 with tab1:
     st.subheader(data["tabs"][0])
-    st.text_area("Analyze / تحليل:", height=150)
-    st.button("Start AI Analysis")
+    st.text_area("Analyze / تحليل:", height=150, key="analysis_input")
+    if st.button("Start AI Scan", key="btn_scan"):
+        with st.spinner('Analyzing...'):
+            time.sleep(1)
+            st.success("✅ Analysis Complete.")
 
 with tab2:
     st.subheader(data["tabs"][1])
-    prod = st.text_input("Product Name:")
-    if st.button("Generate Copy"):
-        st.code(f"أفضل {prod} في السوق! جودة خيالية وتوصيل فابور. اطلب دابا!")
+    prod_name = st.text_input("Product Name:", key="prod_name")
+    if st.button("Generate Ad Copy", key="btn_copy"):
+        st.code(f"أفضل {prod_name} في السوق! جودة عالية وتوصيل سريع. اطلب الآن!")
 
 with tab3:
     st.subheader(data["tabs"][2])
-    col_a, col_b = st.columns(2)
-    with col_a:
-        t = st.text_input("Title / العنوان")
-        p = st.text_input("Price / الثمن")
-    with col_b:
-        d = st.text_area("Desc / الوصف")
-    
-    if st.button("Build Website 🚀"):
-        with st.spinner('Building...'):
-            time.sleep(1)
-            st.success("✅ موقعك جاهز للمعاينة!")
-            # معاينة بسيطة
-            st.markdown(f"""
-            <div style="border: 2px solid #ddd; padding: 20px; border-radius: 10px; text-align: center;">
-                <h1>{t}</h1>
-                <p>{d}</p>
-                <h2 style="color: red;">{p} DH</h2>
-                <button style="background: green; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Buy Now / اطلب الآن</button>
-            </div>
-            """, unsafe_content_allowed=True)
-
-with tab4:
-    st.header("💎 ابدأ جني الأرباح اليوم")
-    st.toast("🔥 شخص من مراكش اشترك في الخطة السنوية قبل قليل")
-    
     c1, c2 = st.columns(2)
     with c1:
-        st.markdown("""
-        <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px; text-align: center;">
-            <h3>الخطة الشهرية</h3>
-            <h1 style="color: green;">25$</h1>
-            <p>✅ بناء مواقع غير محدود</p>
-            <p>✅ دعم فني 24/7</p>
-        </div>
-        """, unsafe_content_allowed=True)
-        st.link_button("اشترك شهرياً", f"https://wa.me/212607573180?text={data['wa_text']}", use_container_width=True)
-
+        st.text_input("Site Title / عنوان الموقع", key="s_title")
+        st.text_input("Price / الثمن", key="s_price")
     with c2:
-        st.markdown("""
-        <div style="border: 3px solid #f1c40f; padding: 20px; border-radius: 10px; text-align: center; background-color: #fffdf0;">
-            <h3 style="color: #d4ac0d;">الخطة السنوية 🔥</h3>
-            <h1 style="color: #d4ac0d;">199$</h1>
-            <p>🌟 <b>وفر 100$ كاملة</b></p>
-            <p>🌟 استشارة مجانية للتجارة الإلكترونية</p>
-            <p style="color: red;">باقي 3 مقاعد فقط!</p>
-        </div>
-        """, unsafe_content_allowed=True)
-        st.link_button("🏆 احصل على العرض السنوي", f"https://wa.me/212607573180?text={data['wa_text']}", type="primary", use_container_width=True)
+        st.text_area("Description / الوصف", key="s_desc")
+    
+    if st.button("Generate Live Site 🚀", key="btn_build"):
+        st.success("✅ الموقع جاهز! (Preview Mode Active)")
 
-    st.write("---")
-    st.markdown("🛡️ *ضمان استرجاع الأموال 7 أيام* | 💳 *CIH, PayPal, Crypto*")
+with tab4:
+    st.header("💳 انضم لأكثر من 1000 مقاول ناجح")
+    st.toast("🔥 شخص جديد اشترك في الخطة السنوية قبل قليل!")
+    
+    col_left, col_right = st.columns(2)
+    
+    with col_left:
+        st.info("### الخطة الشهرية: 25$")
+        st.write("✅ بناء مواقع غير محدود")
+        st.write("✅ دعم VIP عبر الواتساب")
+        st.link_button("اشترك شهرياً", f"https://wa.me/212607573180?text={data['wa_msg']}")
+
+    with col_right:
+        st.warning("### الخطة السنوية: 199$ (Best Value)")
+        st.write("🌟 *وفر 100$ كاملة*")
+        st.write("🌟 استشارة مجانية في الـ Dropshipping")
+        st.write("🌟 أولوية في تحديثات الذكاء الاصطناعي")
+        st.link_button("🏆 احصل على العرض السنوي", f"https://wa.me/212607573180?text={data['wa_msg']}", type="primary")
+
+    st.divider()
+    st.markdown("🔒 *ضمان استرجاع الأموال* | 💳 *CIH, PayPal, Crypto*")
 
 st.divider()
-st.caption("AdSpy Pro v8.5 | Official Build")
+st.caption("AdSpy Pro v9.0 | Built by Ilham Amezzargou")
